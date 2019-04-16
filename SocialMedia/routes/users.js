@@ -15,6 +15,7 @@ router.get('/', function(req, res, next) {
   });
 });
 
+// register user
 router.post('/register', function(req, res){
   
 });

@@ -31,7 +31,7 @@ router.get('/:id', function(req, res){
     var collection = db.get('posts');
     /* not sure if we have to find one post with the id
     or all the posts with the id*/
-    collection.findOne({_id: req.params.id}, function(err, posts){
+    collection.find({_id: req.params.id}, function(err, posts){
         if(err) throw err;
         res.json(posts);
     });
