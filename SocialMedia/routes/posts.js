@@ -39,17 +39,32 @@ router.get('/:id', function(req, res){
 
 router.post('/:id', function(req, res){
     var collection = db.get('posts');
-    collection.insertOne({_id: req.params.id} ,{
-        author: req.body.author,
-        content: req.body.content,
-        date: req.body.date,
-        // not sure about favourited field here
-       userMentions: req.body.userMentions
-    },
-    function(err, movie){
-        if(err) throw err;
-        res.json(movie);
-    });
+    var objectId = new objectId();
+    
+    collection.update(
+        {
+            _id: req.params.id
+        },
+        {
+            $push:
+            {
+                comments:
+                {
+                   id: objectId,
+                   author: req.body.author,
+                   content: req.body.content,
+                   date: new Date().toString(),
+                   votes: 0,
+    			   body: req.body.data.content 
+                }
+            }
+        },
+        function(err, posts){
+            if(err) throw err;
+            res.json(posts);
+        }
+    );
+   
 });
 
 router.delete('/:id', function(req, res){
@@ -59,5 +74,10 @@ router.delete('/:id', function(req, res){
         res.json(posts);
     });
 });
+
+router.put('/:id', function(req, res){
+    
+});
+
 //module.exports must be our last line
 module.exports = router;
