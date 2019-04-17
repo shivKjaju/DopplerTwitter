@@ -24,9 +24,9 @@ router.post('/', function(req, res){
         favourited: 0,
         replies: [],
         userMentions: req.body.userMentions
-    }, function(err, movie){
+    }, function(err, new_post){
         if (err) throw err;
-        res.json(movie);
+        res.json(new_post);
     });
 });
 

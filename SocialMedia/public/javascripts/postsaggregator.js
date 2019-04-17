@@ -39,8 +39,8 @@ app.controller('HomeCtrl', ['$scope', '$resource',
  app.controller('createpostCtrl', ['$scope', '$resource', '$location',
  function( $scope, $resource, $location){
     $scope.save = function(){
-        var posts = $resource('/:id');
-        posts.save({post:$scope.posts}, function(){  
+        var posts = $resource('/api/posts');
+        posts.save($scope.new_post, function(){  
         $location.path('/#/');
     });
 };

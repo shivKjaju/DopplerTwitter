@@ -9,10 +9,12 @@
     </head>
     <body>
         <h1>DopplerTwitter Home Page</h1>
+    <a class='button' href="/#/createPost">Add a Post</a>
     <ul>
         <li ng-repeat='post in Posts'>
             {{post.author}}
             {{post._id}}
+            {{post.content}}
         </li>
     </ul>
     <h2>Follow these people</h2>
