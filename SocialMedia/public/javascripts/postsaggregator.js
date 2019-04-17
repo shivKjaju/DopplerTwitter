@@ -37,11 +37,12 @@ app.controller('HomeCtrl', ['$scope', '$resource',
         $scope.Posts = out;
     }]);
 
- app.controller('createpostCtrl', ['$scope', '$resource', '$location'],
+ app.controller('createpostCtrl', ['$scope', '$resource', '$location',
  function( $scope, $resource, $location){
     $scope.save = function(){
         var posts = $resource('/:id');
-        posts.save({post:$scope.post, userMentions:$scope.userMentions})
-        $location.path('/');
-    };
- });   
+        posts.save({post:$scope.posts}, function(){  
+        $location.path('/#/');
+    });
+};
+ }]);   

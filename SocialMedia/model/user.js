@@ -1,5 +1,5 @@
 var mongoose = require('mongoose');
-var bcrypt = require('bcrypt.js');
+// var bcrypt = require('bcrypt.js');
 
 var uSchema = mongoose.Schema({
     name: {
@@ -25,9 +25,9 @@ module.exports.createUser = function(nUser, done){
     nUser.save(done);
 }
 
-module.exports.checkPassword = function(userPassword, hide,callback){
-    bcrypt.compare(userPassword, hide, function(err, match){
-        if(err) throw err;
-        callback(null, match);
-    });
-}
+// module.exports.checkPassword = function(userPassword, hide,callback){
+//     bcrypt.compare(userPassword, hide, function(err, match){
+//         if(err) throw err;
+//         callback(null, match);
+//     });
+// }

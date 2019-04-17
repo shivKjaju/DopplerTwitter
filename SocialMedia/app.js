@@ -11,7 +11,8 @@ var indexRouter = require('./routes/index');
 var usersRouter = require('./routes/users');
 var postsRouter = require('./routes/posts');
 
-mongoose.connect('mongodb://localhost/SocialMedia')
+mongoose.connect('mongodb://localhost/SocialMedia');
+var db = mongoose.connection;
 
 var app = express();
 
