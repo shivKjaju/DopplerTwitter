@@ -6,12 +6,13 @@ var db = monk('localhost:27017/Post');
 
 // /api/posts with get method
 router.get('/', function(req, res){
-    var collection = db.get('posts');
-    collection.find({}, function(err, posts){
+    var postCollection = db.get('posts');
+    postCollection.find({}, function(err, posts){
         if (err) throw err;
         res.json(posts);
     });
 });
+
 
 // /api/posts with post method
 router.post('/', function(req, res){

@@ -26,13 +26,15 @@ app.config(['$routeProvider', function($routeProvider){
 
 app.controller('HomeCtrl', ['$scope', '$resource', 
     function($scope, $resource){
-        var Posts = $resource('/');
-        //console.log(Posts.author);
+        var Posts = $resource('/api/posts');
+        var Users = $resource('/users')
         Posts.query(function(post){
-            console.log(post.author);
-            $scope.Posts = post.author;
+            $scope.Posts = post;
         });
-    }]);
+        Users.query(function(user){
+            $scope.Users = user;
+        });
+}]);
 
  app.controller('createpostCtrl', ['$scope', '$resource', '$location',
  function( $scope, $resource, $location){
