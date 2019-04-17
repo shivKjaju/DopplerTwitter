@@ -10,13 +10,10 @@
     <body>
         <h1>DopplerTwitter Home Page</h1>
     <ul>
-    <li ng-repeat="post in Posts">
-        {{post.content}}
-    </li>
-    
+        <li ng-repeat='post in Posts'>
+            {{post.author}}
+            {{post._id}}
+        </li>
     </ul>
-    
     </body>
-    
-
 </html>

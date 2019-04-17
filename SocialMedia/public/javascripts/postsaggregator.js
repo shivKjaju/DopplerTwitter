@@ -26,15 +26,12 @@ app.config(['$routeProvider', function($routeProvider){
 
 app.controller('HomeCtrl', ['$scope', '$resource', 
     function($scope, $resource){
-        var post = $resource('/api/posts');
-        var mapFunction = function(){
-            emit(this.author, this.content);
-        };
-        var reduce = function(author, content){
-            return content.join();
-        };
-        db.posts.mapReduce(mapFunction, reduce, {out: "postResults"});
-        $scope.Posts = out;
+        var Posts = $resource('/');
+        //console.log(Posts.author);
+        Posts.query(function(post){
+            console.log(post.author);
+            $scope.Posts = post.author;
+        });
     }]);
 
  app.controller('createpostCtrl', ['$scope', '$resource', '$location',
