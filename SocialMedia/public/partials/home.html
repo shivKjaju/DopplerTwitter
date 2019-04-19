@@ -12,9 +12,14 @@
     <a class='button' href="/#/createPost">Add a Post</a>
     <ul>
         <li ng-repeat='post in Posts'>
-            {{post.author}}
-            {{post._id}}
-            {{post.content}}
+            ID: {{post._id}}<br>
+            User: {{post.author}}<br>
+            Content: {{post.content}}
+            <a href="/#/post/{{post._id}}">Edit</a>
+            <input type="button" class="glyphicon glyphicon-check" value="Delete" ng-click="delete(post._id)"></input><br>
+            Likes : {{post.favorited}}
+            <input type="button" class="glyphicon glyphicon-heart" value="Add" ng-click="like(post._id)"></input>
+            <br>
         </li>
     </ul>
     <h2>Follow these people</h2>
@@ -25,3 +30,4 @@
     </ul>
     </body>
 </html>
+

@@ -4,6 +4,17 @@ var objectId = require('mongodb').objectID;
 var monk = require('monk');
 var db = monk('localhost:27017/Post');
 
+// /api/posts/:postid with get method
+router.get('/:postid', function(req, res){
+    var collection = db.get('posts');
+    console.log("ajksdfjkansjkfdnajksdfnjkasndf");
+    console.log(req.params.postid);
+    collection.findOne({_id: req.params.postid}, function(err, posts){
+        if(err) throw err;
+        res.json(posts);
+    });
+});
+
 // /api/posts with get method
 router.get('/', function(req, res){
     var postCollection = db.get('posts');
@@ -21,7 +32,7 @@ router.post('/', function(req, res){
         author: req.body.author,
         content: req.body.content,
         date: req.body.date,
-        favourited: 0,
+        favorited: 0,
         replies: [],
         userMentions: req.body.userMentions
     }, function(err, new_post){
@@ -30,39 +41,21 @@ router.post('/', function(req, res){
     });
 });
 
-// /api/posts/:postid with get method
-router.get('/:postid', function(req, res){
-    var collection = db.get('posts');
-    /* not sure if we have to find one post with the id
-    or all the posts with the id*/
-    collection.find({_id: req.params.postid}, function(err, posts){
-        if(err) throw err;
-        res.json(posts);
-    });
-});
 
 // /api/posts/:postid with post method
 router.post('/:postid', function(req, res){
     var collection = db.get('posts');
     var objectId = new objectId();
-    
     collection.update(
         {
             _id: req.params.postid
         },
         {
-            $push:
-            {
-                comments:
-                {
-                   id: objectId,
-                   author: req.body.author,
-                   content: req.body.content,
-                   date: new Date().toString(),
-                   votes: 0,
-    			   body: req.body.data.content 
-                }
-            }
+            _id: objectId,
+            author: req.body.author,
+            content: req.body.content,
+            date: new Date().toString(),
+            favorited: req.body.favorited
         },
         function(err, posts){
             if(err) throw err;
@@ -73,7 +66,7 @@ router.post('/:postid', function(req, res){
 });
 
 // /api/posts/:postid with delete method
-router.delete('/:postid', function(req, res){
+router.delete('post/delete/:postid', function(req, res){
     var collection = db.get('posts');
     collection.remove({_id: req.params.postid}, function(err, posts){
         if(err) throw err;
@@ -84,15 +77,26 @@ router.delete('/:postid', function(req, res){
 // /api/posts/:postid with put method
 router.put('/:postid', function(req, res){
     var collection = db.get('posts');
-    collection.update({
-        _id: req.params.postid
-    },
-    {
-        favourited: req.body.favourited
-    }, function(err, posts){
-        if (err) throw err;
-        res.json(posts);
+    collection.findOne({_id: req.params.postid}, function(err, posts){
+        if(err) throw err;
+
+        console.log(posts);
+        collection.update({
+            _id: req.params.postid
+        },
+        {
+            author: posts.author,
+            content: posts.content,
+            date: new Date().toString(),
+            favorited: posts.favorited + 1,
+            replies: [],
+            userMentions: []
+        }, function(err, posts){
+            if (err) throw err;
+            res.json(posts);
+        });
     });
+    
 });
 
 router.get('/', function(req, res){
@@ -115,6 +119,7 @@ router.get('/', function(req, res){
     );
 
 });
+
 
 //module.exports must be our last line
 module.exports = router;

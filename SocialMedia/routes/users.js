@@ -17,8 +17,4 @@ router.get('/', function(req, res){
   });
 });
 
-// register user
-//router.post('/register', function(req, res){
-  
-//});
 module.exports = router;
