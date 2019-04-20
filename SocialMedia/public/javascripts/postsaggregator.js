@@ -86,14 +86,17 @@ app.controller('LoginCtrl', ['$scope', '$resource', '$location',
 
 app.controller('DeletePostCtrl', ['$scope', '$resource', '$location', '$routeParams',
     function($scope, $resource, $location, $routeParams){
-        console.log("amsdkfmakslfdmlkasmdfklmasd");
-        var Post = $resource('/api/posts/post/delete/:postid');
-        console.log(Post);
-        Post.get({_id: $routeParams.postid}, function(post){
-            $scope.delete_post = post;
+        var Post = $resource('/api/posts/:postid');
+        alert(Post.content);
+        Post.query({_id: $routeParams.postid}, function(post){
+            for(i = 0; i <post.length; i++){
+                if(post[i]._id == $routeParams.postid ){
+                    $scope.delete_post = post[i];   
+                }
+            }
         })
-        $scope.delete = function(id){
-            Post.delete({id: $routeParams.postid}, function(delete_post){
+        $scope.delete = function(){
+            Post.delete({ postid: $routeParams.postid}, function(delete_post){
                 $location.path('/#/');
             });
         }

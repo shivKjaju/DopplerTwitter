@@ -64,7 +64,7 @@ router.post('/:postid', function(req, res){
 });
 
 // /api/posts/:postid with delete method
-router.delete('post/delete/:postid', function(req, res){
+router.delete('/:postid', function(req, res){
     var collection = db.get('posts');
     collection.remove({_id: req.params.postid}, function(err, posts){
         if(err) throw err;
