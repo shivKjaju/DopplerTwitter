@@ -13,6 +13,15 @@
     </head>
     <body>
         <h2>Edit your post</h2>
-        <h4>{{post._id}}</h4>
+        <h4>ID: {{post._id}}</h4>
+        <div class="form-group">
+                <label>post</label>
+                <input class="form-control" ng-model="post.content"></input>
+            </div>
+            <div class="form-group">
+                <label>userMentions</label>
+                <input class="form-control" ng-model="post.userMentions"></input>
+            </div>
+            <input type="button" class="btn btn-primary" value="Update" ng-click="edit()"></input>
     </body>
 </html>

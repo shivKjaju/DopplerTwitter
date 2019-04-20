@@ -7,8 +7,6 @@ var db = monk('localhost:27017/Post');
 // /api/posts/:postid with get method
 router.get('/:postid', function(req, res){
     var collection = db.get('posts');
-    console.log("ajksdfjkansjkfdnajksdfnjkasndf");
-    console.log(req.params.postid);
     collection.findOne({_id: req.params.postid}, function(err, posts){
         if(err) throw err;
         res.json(posts);
@@ -77,26 +75,21 @@ router.delete('post/delete/:postid', function(req, res){
 // /api/posts/:postid with put method
 router.put('/:postid', function(req, res){
     var collection = db.get('posts');
-    collection.findOne({_id: req.params.postid}, function(err, posts){
-        if(err) throw err;
-
-        console.log(posts);
-        collection.update({
-            _id: req.params.postid
-        },
-        {
-            author: posts.author,
-            content: posts.content,
-            date: new Date().toString(),
-            favorited: posts.favorited + 1,
-            replies: [],
-            userMentions: []
-        }, function(err, posts){
-            if (err) throw err;
-            res.json(posts);
-        });
+    console.log("asdasdasd");
+    collection.update({
+        _id: req.params.postid
+    },
+    {
+        author: req.body.author,
+        content: req.body.content,
+        date: new Date().toString(),
+        favorited: req.body.favorited,
+        replies: [],
+        userMentions: []
+    }, function(err, posts){
+        if (err) throw err;
+        res.json(posts);
     });
-    
 });
 
 router.get('/', function(req, res){

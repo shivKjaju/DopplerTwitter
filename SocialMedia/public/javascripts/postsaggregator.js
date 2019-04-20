@@ -42,12 +42,21 @@ app.controller('HomeCtrl', ['$scope', '$resource', '$routeParams', '$location',
         Users.query(function(user){
             $scope.Users = user;
         });
-
-        $scope.like = function(postid){
-            var curr_post = $resource('/api/posts/:postid', { postid: postid }, {
+        //Add a like function
+        $scope.like = function(postid, fav_count){
+            var test_post = $resource('/api/posts/:postid');
+            test_post.query({id:postid}, function(post){
+                console.log("In here");
+                for(i =0 ; i < post.length ; i++){
+                    if(post[i]._id == postid){
+                        console.log(parseInt(postid.favorited));
+                        postid.favorited = fav_count + 1;
+                    }
+                }
+            });
+            var curr_post = $resource('/api/posts/:postid', {postid: postid}, {
                 update: { method: 'PUT' }
             });
-            console.log(curr_post);
             curr_post.update({postid: $routeParams.postid}, function(post){
                 $scope.post = post;
                 $location.path('/#/');
@@ -63,7 +72,7 @@ app.controller('createpostCtrl', ['$scope', '$resource', '$location',
             $location.path('/#/');
         });
     };
-}]);   
+}]); 
 
 app.controller('LoginCtrl', ['$scope', '$resource', '$location',
     function($scope, $resource, $location){
@@ -93,19 +102,15 @@ app.controller('DeletePostCtrl', ['$scope', '$resource', '$location', '$routePar
 
 app.controller('EditPostCtrl', ['$scope', '$resource', '$location', '$routeParams',
     function($scope, $resource, $location, $routeParams){
-        var Posts = $resource('/api/posts/:postid', { postid: $routeParams.postid }, {
+        var Posts = $resource('/api/posts/:editpostid', { editpostid: $routeParams.postid }, {
             update: { method: 'PUT' }
-            
         });
-        console.log($routeParams.postid);
-        Posts.get({ postid: $routeParams.postid}, function(post){
+        Posts.get({ editpostid: $routeParams.postid}, function(post){
             $scope.post = post;
         });
-        console.log($scope.post);
         $scope.edit = function(postid){
             Posts.update($scope.post, function(){
-                $location.path('/#/');
+                $location.path('/');
             });
         }
-        console.log($scope.post);
     }]);

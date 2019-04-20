@@ -18,7 +18,7 @@
             <a href="/#/post/{{post._id}}">Edit</a>
             <input type="button" class="glyphicon glyphicon-check" value="Delete" ng-click="delete(post._id)"></input><br>
             Likes : {{post.favorited}}
-            <input type="button" class="glyphicon glyphicon-heart" value="Add" ng-click="like(post._id)"></input>
+            <input type="button" class="glyphicon glyphicon-heart" value="Add" ng-click="like(post._id, post.favorited)"></input>
             <br>
         </li>
     </ul>
