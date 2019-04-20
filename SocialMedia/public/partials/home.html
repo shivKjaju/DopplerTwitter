@@ -9,5 +9,27 @@
     </head>
     <body>
         <h1>DopplerTwitter Home Page</h1>
+    <a class='button' href="/#/createPost">Add a Post</a>
+    <ul>
+        <li ng-repeat='post in Posts'>
+            ID: {{post._id}}<br>
+            User: {{post.author}}<br>
+            Content: {{post.content}}
+            <a href="/#/post/{{post._id}}">Edit</a>
+            <a href="/#/post/delete/{{post._id}}">
+                <i class="glyphicon glyphicon-remove"></i>
+            </a>    
+            Likes : {{post.favorited}}
+            <input type="button" class="glyphicon glyphicon-heart" value="Add" ng-click="like(post._id)"></input>
+            <br>
+        </li>
+    </ul>
+    <h2>Follow these people</h2>
+    <ul>
+        <li ng-repeat='user in Users'>
+            {{user.name}}
+        </li>
+    </ul>
     </body>
 </html>
+
