@@ -7,8 +7,6 @@ var db = monk('localhost:27017/Post');
 // /api/posts/:postid with get method
 router.get('/:postid', function(req, res){
     var collection = db.get('posts');
-    console.log("ajksdfjkansjkfdnajksdfnjkasndf");
-    console.log(req.params.postid);
     collection.findOne({_id: req.params.postid}, function(err, posts){
         if(err) throw err;
         res.json(posts);
@@ -66,7 +64,7 @@ router.post('/:postid', function(req, res){
 });
 
 // /api/posts/:postid with delete method
-router.delete('post/delete/:postid', function(req, res){
+router.delete('/:postid', function(req, res){
     var collection = db.get('posts');
     collection.remove({_id: req.params.postid}, function(err, posts){
         if(err) throw err;

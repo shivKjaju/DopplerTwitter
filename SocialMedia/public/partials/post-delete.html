@@ -15,10 +15,9 @@
         <h1>Delete a Post</h1>
         <h5>Do you really want to remove this post?</h5>
         <ul>
-            <li>Author: {{delete_post}}</li>
-            <li>Content: {{post.content}}</li>
+            <li>Content: {{delete_post.content}}</li>
         </ul>
-        <input type = "button" value="Delete" ng-click="delete()">
-        <a class = "button" href="/#/"> Go Back</a>
+        <input type = "button" value="Delete" class="btn btn-danger" ng-click="delete()" />
+        <a class = "btn btn-default" href="/#/"> No, Go Back</a>
     </body>
 </html>

@@ -47,7 +47,6 @@ app.controller('HomeCtrl', ['$scope', '$resource', '$routeParams', '$location',
             var curr_post = $resource('/api/posts/:postid', { postid: postid }, {
                 update: { method: 'PUT' }
             });
-            console.log(curr_post);
             curr_post.update({postid: $routeParams.postid}, function(post){
                 $scope.post = post;
                 $location.path('/#/');
@@ -77,14 +76,17 @@ app.controller('LoginCtrl', ['$scope', '$resource', '$location',
 
 app.controller('DeletePostCtrl', ['$scope', '$resource', '$location', '$routeParams',
     function($scope, $resource, $location, $routeParams){
-        console.log("amsdkfmakslfdmlkasmdfklmasd");
-        var Post = $resource('/api/posts/post/delete/:postid');
-        console.log(Post);
-        Post.get({_id: $routeParams.postid}, function(post){
-            $scope.delete_post = post;
+        var Post = $resource('/api/posts/:postid');
+        alert(Post.content);
+        Post.query({_id: $routeParams.postid}, function(post){
+            for(i = 0; i <post.length; i++){
+                if(post[i]._id == $routeParams.postid ){
+                    $scope.delete_post = post[i];   
+                }
+            }
         })
-        $scope.delete = function(id){
-            Post.delete({id: $routeParams.postid}, function(delete_post){
+        $scope.delete = function(){
+            Post.delete({ postid: $routeParams.postid}, function(delete_post){
                 $location.path('/#/');
             });
         }
