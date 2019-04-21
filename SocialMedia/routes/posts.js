@@ -26,10 +26,12 @@ router.get('/', function(req, res){
 // /api/posts with post method
 router.post('/', function(req, res){
     var collection = db.get('posts');
+    console.log("Adding a new Post into the DB");
+    console.log(req.body.content);
     collection.insert({
         author: req.body.author,
         content: req.body.content,
-        date: req.body.date,
+        date: new Date().toString(),
         favorited: 0,
         replies: [],
         userMentions: req.body.userMentions
@@ -53,7 +55,9 @@ router.post('/:postid', function(req, res){
             author: req.body.author,
             content: req.body.content,
             date: new Date().toString(),
-            favorited: req.body.favorited
+            favorited: req.body.favorited,
+            replies: req.body.replies,
+            userMentions: req.body.userMentions
         },
         function(err, posts){
             if(err) throw err;
@@ -75,26 +79,22 @@ router.delete('/:postid', function(req, res){
 // /api/posts/:postid with put method
 router.put('/:postid', function(req, res){
     var collection = db.get('posts');
-    collection.findOne({_id: req.params.postid}, function(err, posts){
-        if(err) throw err;
-
-        console.log(posts);
-        collection.update({
-            _id: req.params.postid
-        },
-        {
-            author: posts.author,
-            content: posts.content,
-            date: new Date().toString(),
-            favorited: posts.favorited + 1,
-            replies: [],
-            userMentions: []
-        }, function(err, posts){
-            if (err) throw err;
-            res.json(posts);
-        });
+    console.log("In Put with SpecificID");
+    console.log(req.body.favorited);
+    collection.update({
+        _id: req.body._id
+    },
+    {
+        author: req.body.author,
+        content: req.body.content,
+        date: new Date().toString(),
+        favorited: req.body.favorited,
+        replies: req.body.replies,
+        userMentions: req.body.userMentions
+    }, function(err, posts){
+        if (err) throw err;
+        res.json(posts);
     });
-    
 });
 
 router.get('/', function(req, res){

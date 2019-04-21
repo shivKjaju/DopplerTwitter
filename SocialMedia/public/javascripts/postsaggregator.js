@@ -26,6 +26,10 @@ app.config(['$routeProvider', function($routeProvider){
             templateUrl: 'partials/post-edit.html',
             controller: 'EditPostCtrl'
         })
+        .when('/post/reply/:postid',{
+            templateUrl: 'partials/post-reply.html',
+            controller: 'ReplyPostCtrl'
+        })
         .otherwise({
             redirectTo: '/'
         });
@@ -42,17 +46,51 @@ app.controller('HomeCtrl', ['$scope', '$resource', '$routeParams', '$location',
         Users.query(function(user){
             $scope.Users = user;
         });
-
-        $scope.like = function(postid){
-            var curr_post = $resource('/api/posts/:postid', { postid: postid }, {
-                update: { method: 'PUT' }
-            });
-            curr_post.update({postid: $routeParams.postid}, function(post){
-                $scope.post = post;
-                $location.path('/#/');
+        //Add a like function
+        $scope.like = function(postid, fav_count){
+            var test_post = $resource('/api/posts/:postid');
+            console.log(test_post);
+            test_post.query({id:postid}, function(post){
+                console.log(post.favorited);
+                for(i =0 ; i < post.length ; i++){
+                    if(post[i]._id == postid){
+                        post[i].favorited = fav_count + 1;
+                        var curr_post = $resource('/api/posts/:postid', {postid: post[i]._id}, {
+                            update: { method: 'PUT' }
+                        });
+                        curr_post.update(post[i], function(post){
+                            $scope.post = post;
+                            console.log("HIT: " + post.favorited);
+                            $location.path('/#/');
+                        });
+                    }
+                }
             });
         };
 }]);
+
+app.controller('ReplyPostCtrl', ['$scope', '$resource', '$location','$routeParams',
+    function($scope, $resource, $location, $routeParams){
+        var Posts = $resource('/api/posts/:replypostid', { replypostid: $routeParams.postid }, {
+            update: { method: 'PUT' }});
+        Posts.get({ editpostid: $routeParams.postid}, function(post){
+            $scope.reply_post = post;
+        });
+
+        $scope.reply = function(postid){
+            var posts = $resource('/api/posts');
+            console.log(posts);
+            var newid = 0;
+            posts.save($scope.post, function(post){  
+                newid = post
+                $scope.reply_post.replies.push(newid);
+                Posts.update($scope.reply_post, function(){
+                    console.log("Updating replies");
+                    $location.path('/#/');
+                });
+            });
+        }
+}]); 
 
 app.controller('createpostCtrl', ['$scope', '$resource', '$location',
     function( $scope, $resource, $location){
@@ -62,7 +100,7 @@ app.controller('createpostCtrl', ['$scope', '$resource', '$location',
             $location.path('/#/');
         });
     };
-}]);   
+}]);  
 
 app.controller('LoginCtrl', ['$scope', '$resource', '$location',
     function($scope, $resource, $location){
@@ -95,19 +133,16 @@ app.controller('DeletePostCtrl', ['$scope', '$resource', '$location', '$routePar
 
 app.controller('EditPostCtrl', ['$scope', '$resource', '$location', '$routeParams',
     function($scope, $resource, $location, $routeParams){
-        var Posts = $resource('/api/posts/:postid', { postid: $routeParams.postid }, {
+        var Posts = $resource('/api/posts/:editpostid', { editpostid: $routeParams.postid }, {
             update: { method: 'PUT' }
-            
         });
-        console.log($routeParams.postid);
-        Posts.get({ postid: $routeParams.postid}, function(post){
+        Posts.get({ editpostid: $routeParams.postid}, function(post){
             $scope.post = post;
         });
-        console.log($scope.post);
         $scope.edit = function(postid){
             Posts.update($scope.post, function(){
-                $location.path('/#/');
+                $location.path('/');
             });
         }
-        console.log($scope.post);
     }]);
+
