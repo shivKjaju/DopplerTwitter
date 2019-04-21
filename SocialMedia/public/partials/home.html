@@ -9,7 +9,7 @@
     </head>
     <nav id=naviBar class="navbar navbar-expand-md fixed-top navbar-light">
 			<div class="container-fluid">
-				<a class="navbar-brand h1" href="#">DopplerTwitter</a>
+				<a class="navbar-brand h1" href="/#/"><i class="fab fa-twitter">DopplerTwitter</i></a>
 			<div class="collapse navbar-collapse" id="navbarNav">
 			    <ul class="navbar-nav">
 			      <li class="nav-item active">  
@@ -45,9 +45,9 @@
                             ID: {{reply._id}}<br>
                             User: {{reply.author}}<br>
                             Content: {{reply.content}}
-                            <a href="/#/post/{{reply._id}}">Edit</a>
+                            <a href="/#/post/{{reply._id}}"><i class="fas fa-edit"></i></a>
                             <a href="/#/post/delete/{{reply._id}}">
-                                <i class="glyphicon glyphicon-remove"></i>
+                                <i class="fas fa-trash-alt"></i>
                             </a>
                             <br>    
                             Likes : {{reply.favorited}}
