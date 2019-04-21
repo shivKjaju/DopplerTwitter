@@ -25,14 +25,24 @@
             <br>
             <a href="/#/post/reply/{{post._id}}">Reply</a><br>
             Replies: <br>
-            Comment 1 : <br>
-            Content: {{post.replies[0].content}}
-            UserMentions: {{post.replies[0].userMentions}}
-            Replies: {{post.replies[0].replies}}<br>
-            Comment 2 : <br>
-            Content: {{post.replies[1].content}}
-            UserMentions: {{post.replies[1].userMentions}}
-            Replies: {{post.replies[0].replies}}<br>
+            <ul>
+                <li ng-repeat = 'reply in post.replies'>
+                        ID: {{reply._id}}<br>
+                        User: {{reply.author}}<br>
+                        Content: {{reply.content}}
+                        <a href="/#/post/{{reply._id}}">Edit</a>
+                        <a href="/#/post/delete/{{reply._id}}">
+                            <i class="glyphicon glyphicon-remove"></i>
+                        </a>
+                        <br>    
+                        Likes : {{reply.favorited}}
+                        <input type="button" class="glyphicon glyphicon-heart" value="Add" ng-click="like(reply._id, reply.favorited)"></input>
+                        <br>
+                        <a href="/#/post/reply/{{reply._id}}">Reply</a><br>
+                        Replies: <br>
+                </li>
+            </ul>
+
         </li>
     </ul>
     <h2>Follow these people</h2>

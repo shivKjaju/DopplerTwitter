@@ -75,15 +75,18 @@ app.controller('ReplyPostCtrl', ['$scope', '$resource', '$location','$routeParam
         Posts.get({ editpostid: $routeParams.postid}, function(post){
             $scope.reply_post = post;
         });
+
         $scope.reply = function(postid){
             var posts = $resource('/api/posts');
-            posts.save($scope.post, function(){  
-            });
-            console.log($scope.post);
-            $scope.reply_post.replies.push($scope.post);
-            Posts.update($scope.reply_post, function(){
-                console.log("Updating replies");
-                $location.path('/#/');
+            console.log(posts);
+            var newid = 0;
+            posts.save($scope.post, function(post){  
+                newid = post
+                $scope.reply_post.replies.push(newid);
+                Posts.update($scope.reply_post, function(){
+                    console.log("Updating replies");
+                    $location.path('/#/');
+                });
             });
         }
 }]); 
