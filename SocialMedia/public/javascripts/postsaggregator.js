@@ -26,6 +26,10 @@ app.config(['$routeProvider', function($routeProvider){
             templateUrl: 'partials/post-edit.html',
             controller: 'EditPostCtrl'
         })
+        .when('/post/reply/:postid',{
+            templateUrl: 'partials/post-reply.html',
+            controller: 'ReplyPostCtrl'
+        })
         .otherwise({
             redirectTo: '/'
         });
@@ -63,6 +67,26 @@ app.controller('HomeCtrl', ['$scope', '$resource', '$routeParams', '$location',
             });
         };
 }]);
+
+app.controller('ReplyPostCtrl', ['$scope', '$resource', '$location','$routeParams',
+    function($scope, $resource, $location, $routeParams){
+        var Posts = $resource('/api/posts/:replypostid', { replypostid: $routeParams.postid }, {
+            update: { method: 'PUT' }});
+        Posts.get({ editpostid: $routeParams.postid}, function(post){
+            $scope.reply_post = post;
+        });
+        $scope.reply = function(postid){
+            var posts = $resource('/api/posts');
+            posts.save($scope.post, function(){  
+            });
+            console.log($scope.post);
+            $scope.reply_post.replies.push($scope.post);
+            Posts.update($scope.reply_post, function(){
+                console.log("Updating replies");
+                $location.path('/#/');
+            });
+        }
+}]); 
 
 app.controller('createpostCtrl', ['$scope', '$resource', '$location',
     function( $scope, $resource, $location){

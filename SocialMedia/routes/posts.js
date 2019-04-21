@@ -26,10 +26,11 @@ router.get('/', function(req, res){
 // /api/posts with post method
 router.post('/', function(req, res){
     var collection = db.get('posts');
+    console.log("Adding a new Post into the DB");
     collection.insert({
         author: req.body.author,
         content: req.body.content,
-        date: req.body.date,
+        date: new Date().toString(),
         favorited: 0,
         replies: [],
         userMentions: req.body.userMentions
@@ -53,7 +54,9 @@ router.post('/:postid', function(req, res){
             author: req.body.author,
             content: req.body.content,
             date: new Date().toString(),
-            favorited: req.body.favorited
+            favorited: req.body.favorited,
+            replies: req.body.replies,
+            userMentions: req.body.userMentions
         },
         function(err, posts){
             if(err) throw err;
@@ -75,17 +78,18 @@ router.delete('/:postid', function(req, res){
 // /api/posts/:postid with put method
 router.put('/:postid', function(req, res){
     var collection = db.get('posts');
-    console.log("asdasdasd");
+    console.log("In Put with SpecificID");
+    console.log(req.body.replies);
     collection.update({
-        _id: req.params.postid
+        _id: req.body._id
     },
     {
         author: req.body.author,
         content: req.body.content,
         date: new Date().toString(),
         favorited: req.body.favorited,
-        replies: [],
-        userMentions: []
+        replies: req.body.replies,
+        userMentions: req.body.userMentions
     }, function(err, posts){
         if (err) throw err;
         res.json(posts);

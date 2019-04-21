@@ -18,10 +18,21 @@
             <a href="/#/post/{{post._id}}">Edit</a>
             <a href="/#/post/delete/{{post._id}}">
                 <i class="glyphicon glyphicon-remove"></i>
-            </a>    
+            </a>
+            <br>    
             Likes : {{post.favorited}}
             <input type="button" class="glyphicon glyphicon-heart" value="Add" ng-click="like(post._id, post.favorited)"></input>
             <br>
+            <a href="/#/post/reply/{{post._id}}">Reply</a><br>
+            Replies: <br>
+            Comment 1 : <br>
+            Content: {{post.replies[0].content}}
+            UserMentions: {{post.replies[0].userMentions}}
+            Replies: {{post.replies[0].replies}}<br>
+            Comment 2 : <br>
+            Content: {{post.replies[1].content}}
+            UserMentions: {{post.replies[1].userMentions}}
+            Replies: {{post.replies[0].replies}}<br>
         </li>
     </ul>
     <h2>Follow these people</h2>

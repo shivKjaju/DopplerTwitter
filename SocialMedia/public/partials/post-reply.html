@@ -1,0 +1,29 @@
+<!DOCTYPE html>
+<!--[if lt IE 7]>      <html class="no-js lt-ie9 lt-ie8 lt-ie7"> <![endif]-->
+<!--[if IE 7]>         <html class="no-js lt-ie9 lt-ie8"> <![endif]-->
+<!--[if IE 8]>         <html class="no-js lt-ie9"> <![endif]-->
+<!--[if gt IE 8]><!--> <html class="no-js"> <!--<![endif]-->
+    <head>
+        <meta charset="utf-8">
+        <meta http-equiv="X-UA-Compatible" content="IE=edge">
+        <title></title>
+        <meta name="description" content="">
+        <meta name="viewport" content="width=device-width, initial-scale=1">
+        <link rel="stylesheet" href="">
+    </head>
+    <body>
+        <h1>Reply to {{reply_post._id}}</h1>
+        <h5>Add any snarky comments you like?</h5>
+        <div class="form-group">
+                <label>Reply</label>
+                <input class="form-control" ng-model="post.content"></input>
+            </div>
+            <div class="form-group">
+                <label>userMentions</label>
+                <input class="form-control" ng-model="post.userMentions"></input>
+            </div>
+            <h6 ng-model="post.replies"></h6>
+            <input type="button" class="btn btn-primary" value="Add Reply" ng-click="reply()"></input>
+        <a class = "btn btn-default" href="/#/"> No, Go Back</a>
+    </body>
+</html>
