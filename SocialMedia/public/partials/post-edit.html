@@ -16,12 +16,14 @@
         <h4>ID: {{post._id}}</h4>
         <div class="form-group">
                 <label>post</label>
-                <input class="form-control" ng-model="post.content"></input>
+                <textarea class="form-control" rows="3" id="comment" ng-model="post.content" maxlength="144"></textarea>
+                <span id="charLimit" ng-model="word_count">144 characters limit</span>
             </div>
             <div class="form-group">
                 <label>userMentions</label>
                 <input class="form-control" ng-model="post.userMentions"></input>
             </div>
             <input type="button" class="btn btn-primary" value="Update" ng-click="edit()"></input>
+            <a class = "btn btn-default" href="/#/"> No, Go Back</a>
     </body>
 </html>

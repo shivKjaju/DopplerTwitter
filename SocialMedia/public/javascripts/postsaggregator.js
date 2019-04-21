@@ -49,21 +49,22 @@ app.controller('HomeCtrl', ['$scope', '$resource', '$routeParams', '$location',
         //Add a like function
         $scope.like = function(postid, fav_count){
             var test_post = $resource('/api/posts/:postid');
+            console.log(test_post);
             test_post.query({id:postid}, function(post){
-                console.log("In here");
+                console.log(post.favorited);
                 for(i =0 ; i < post.length ; i++){
                     if(post[i]._id == postid){
-                        console.log(parseInt(postid.favorited));
-                        postid.favorited = fav_count + 1;
+                        post[i].favorited = fav_count + 1;
+                        var curr_post = $resource('/api/posts/:postid', {postid: post[i]._id}, {
+                            update: { method: 'PUT' }
+                        });
+                        curr_post.update(post[i], function(post){
+                            $scope.post = post;
+                            console.log("HIT: " + post.favorited);
+                            $location.path('/#/');
+                        });
                     }
                 }
-            });
-            var curr_post = $resource('/api/posts/:postid', {postid: postid}, {
-                update: { method: 'PUT' }
-            });
-            curr_post.update({postid: $routeParams.postid}, function(post){
-                $scope.post = post;
-                $location.path('/#/');
             });
         };
 }]);
@@ -99,7 +100,7 @@ app.controller('createpostCtrl', ['$scope', '$resource', '$location',
             $location.path('/#/');
         });
     };
-}]); 
+}]);  
 
 app.controller('LoginCtrl', ['$scope', '$resource', '$location',
     function($scope, $resource, $location){
@@ -144,3 +145,4 @@ app.controller('EditPostCtrl', ['$scope', '$resource', '$location', '$routeParam
             });
         }
     }]);
+

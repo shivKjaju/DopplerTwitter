@@ -27,6 +27,7 @@ router.get('/', function(req, res){
 router.post('/', function(req, res){
     var collection = db.get('posts');
     console.log("Adding a new Post into the DB");
+    console.log(req.body.content);
     collection.insert({
         author: req.body.author,
         content: req.body.content,
@@ -79,7 +80,7 @@ router.delete('/:postid', function(req, res){
 router.put('/:postid', function(req, res){
     var collection = db.get('posts');
     console.log("In Put with SpecificID");
-    console.log(req.body.replies);
+    console.log(req.body.favorited);
     collection.update({
         _id: req.body._id
     },

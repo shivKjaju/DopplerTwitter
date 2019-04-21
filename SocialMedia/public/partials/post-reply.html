@@ -15,15 +15,16 @@
         <h1>Reply to {{reply_post._id}}</h1>
         <h5>Add any snarky comments you like?</h5>
         <div class="form-group">
-                <label>Reply</label>
-                <input class="form-control" ng-model="post.content"></input>
-            </div>
+                <label><h6>Reply</h6></label>
+                <textarea class="form-control" rows="3" id="comment" ng-model="post.content"></textarea>
+                <span id="charLimit" ng-model="word_count">144 characters left</span>
+        </div>
             <div class="form-group">
-                <label>userMentions</label>
-                <input class="form-control" ng-model="post.userMentions"></input>
+                <label><h6>UserMentions</h6></label>
+                <textarea class="form-control" rows="3" ng-model="post.userMentions" id="comment" ng-model="post.content"></textarea>
             </div>
             <h6 ng-model="post.replies"></h6>
             <input type="button" class="btn btn-primary" value="Add Reply" ng-click="reply()"></input>
-        <a class = "btn btn-default" href="/#/"> No, Go Back</a>
+        <a class = "btn btn-danger" href="/#/"> No, Go Back</a>
     </body>
 </html>
