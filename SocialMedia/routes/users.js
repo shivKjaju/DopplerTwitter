@@ -18,6 +18,24 @@ router.get('/', function(req, res){
   });
 });
 
+
+router.get('/following', function(req, res){
+  var userCollection = db.get('users');
+  userCollection.findOne({_id: req.query.author}, function(err, users){
+      if (err) throw err;
+      res.json(users);
+  });
+});
+
+router.get('/follow', function(req, res){
+  var userCollection = db.get('users');
+  userCollection.findOne({username: req.query.username}, function(err, users){
+      if (err) throw err;
+      res.json(users);
+  });
+});
+
+
 router.post('/register', function(req, res){
   //console.log("req",req);
   var name = req.body.user.name;
