@@ -1,6 +1,6 @@
 var express = require('express');
 var router = express.Router();
-var objectId = require('mongodb').objectID;
+var objectId = require('mongodb').ObjectID;
 var monk = require('monk');
 var db = monk('localhost:27017/Post');
 
@@ -15,6 +15,7 @@ router.get('/:postid', function(req, res){
 
 // /api/posts with get method
 router.get('/', function(req, res){
+<<<<<<< HEAD
     var postCollection = db.get('posts');
     console.log(req.query.userquery);
     if(req.query.userquery != null){
@@ -28,8 +29,38 @@ router.get('/', function(req, res){
             res.json(posts);
         });
     }
+=======
+    console.log('finding posts for author(obj):', req.query);
+    var postCollection = db.get('posts'); 
+    postCollection.find({author :  req.query.author}, function(err, posts){
+        if (err) throw err;
+        console.log('got posts for author:', posts);
+        res.json(posts);
+    });
+>>>>>>> hotfix
 });
 
+// posts of followers
+// router.get('/', function(req, res){
+//     console.log('finding posts for author(obj):', req.query);
+//     var collection = db.get('posts'); 
+//     var mapFunc = function(){
+//         emit(this.author, this.content);
+//     };
+//     var reduceFunc = function(author, content){
+//         return content.join();
+//     };
+//     collection.mapReduce(
+//         {
+//             mapFunc,
+//             reduceFunc,
+//             {
+//                 query: req.query,
+//                 out: "postResults"
+//             }
+//         }
+//     );
+// });
 
 // /api/posts with post method
 router.post('/', function(req, res){
