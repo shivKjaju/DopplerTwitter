@@ -1,5 +1,5 @@
 body {
-  padding: 50px;
+  padding: 10%;
   font: 14px "Lucida Grande", Helvetica, Arial, sans-serif;
 }
 
@@ -9,4 +9,8 @@ a {
 
 #postSection{
   padding: 3%;
+}
+
+h1{
+  padding-top: 10%;
 }

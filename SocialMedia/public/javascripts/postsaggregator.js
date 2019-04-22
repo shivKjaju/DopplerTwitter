@@ -67,6 +67,14 @@ app.controller('HomeCtrl', ['$scope', '$resource', '$routeParams', '$location',
                 }
             });
         };
+        $scope.search = function(user_name){
+            var search_q = user_name;
+            console.log(search_q);
+            Posts.query(search_q, function(post){
+                $scope.user_query = post;
+                console.log(post._id);
+            });
+        };
 }]);
 
 app.controller('ReplyPostCtrl', ['$scope', '$resource', '$location','$routeParams',
