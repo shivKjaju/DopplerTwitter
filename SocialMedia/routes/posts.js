@@ -15,21 +15,6 @@ router.get('/:postid', function(req, res){
 
 // /api/posts with get method
 router.get('/', function(req, res){
-<<<<<<< HEAD
-    var postCollection = db.get('posts');
-    console.log(req.query.userquery);
-    if(req.query.userquery != null){
-        postCollection.find({}, function(err, posts){
-            if (err) throw err;
-            res.json(posts);
-        });
-    } else{
-        postCollection.find({}, function(err, posts){
-            if (err) throw err;
-            res.json(posts);
-        });
-    }
-=======
     console.log('finding posts for author(obj):', req.query);
     var postCollection = db.get('posts'); 
     postCollection.find({author :  req.query.author}, function(err, posts){
@@ -37,7 +22,6 @@ router.get('/', function(req, res){
         console.log('got posts for author:', posts);
         res.json(posts);
     });
->>>>>>> hotfix
 });
 
 // posts of followers

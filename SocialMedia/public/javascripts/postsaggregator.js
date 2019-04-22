@@ -1,33 +1,12 @@
 //A single JavaScript file that contains all controllers
-<<<<<<< HEAD
-<<<<<<< HEAD
-var app = angular.module('MovieMania', ['ngResource','ngRoute']);
-
-=======
 var app = angular.module('dopplerTwitter', ['ngResource','ngRoute']);
->>>>>>> master
-=======
 var app = angular.module('dopplerTwitter', ['ngResource','ngRoute','ngStorage']);
->>>>>>> hotfix
 app.config(['$routeProvider', function($routeProvider){
     $routeProvider
         .when('/', {
             templateUrl: 'partials/home.html',
             controller: 'HomeCtrl'
         })
-<<<<<<< HEAD
-        .when('/add-movie', {
-            templateUrl: 'partials/movie-form.html',
-            controller: 'AddMovieCtrl'
-        })
-        .when('/movie/:id', {
-            templateUrl: 'partials/movie-form.html',
-            controller: 'EditMovieCtrl'
-        })
-        .when('/movie/delete/:id', {
-            templateUrl: 'partials/movie-delete.html',
-            controller: 'DeleteMovieCtrl'
-=======
         .when('/login',{
             templateUrl: 'partials/login.html',
             controller: 'LoginCtrl'
@@ -51,15 +30,10 @@ app.config(['$routeProvider', function($routeProvider){
         .when('/post/reply/:postid',{
             templateUrl: 'partials/post-reply.html',
             controller: 'ReplyPostCtrl'
->>>>>>> master
         })
         .otherwise({
             redirectTo: '/'
         });
-<<<<<<< HEAD
-}]);
-=======
-
 }]);
 
 app.controller('HomeCtrl', ['$scope','$localStorage', '$resource', '$routeParams', '$location',
@@ -74,7 +48,6 @@ app.controller('HomeCtrl', ['$scope','$localStorage', '$resource', '$routeParams
         Users.query(function(user){
             $scope.Users = user;
         });
-<<<<<<< HEAD
         //Add a like function
         $scope.like = function(postid, fav_count){
             var test_post = $resource('/api/posts/:postid');
@@ -94,16 +67,6 @@ app.controller('HomeCtrl', ['$scope','$localStorage', '$resource', '$routeParams
                         });
                     }
                 }
-=======
-
-        // PostsFollowing.query({author: $localStorage.user._id}, function(post){
-        //     $scope.PostsFollowing = post;
-        // });
-        
-        $scope.like = function(postid){
-            var curr_post = $resource('/api/posts/:postid', { postid: postid }, {
-                update: { method: 'PUT' }
->>>>>>> hotfix
             });
         };
         $scope.search = function(user_name){
@@ -116,7 +79,6 @@ app.controller('HomeCtrl', ['$scope','$localStorage', '$resource', '$routeParams
         };
 }]);
 
-<<<<<<< HEAD
 app.controller('ReplyPostCtrl', ['$scope', '$resource', '$location','$routeParams',
     function($scope, $resource, $location, $routeParams){
         var Posts = $resource('/api/posts/:replypostid', { replypostid: $routeParams.postid }, {
@@ -142,10 +104,6 @@ app.controller('ReplyPostCtrl', ['$scope', '$resource', '$location','$routeParam
 
 app.controller('createpostCtrl', ['$scope', '$resource', '$location',
     function( $scope, $resource, $location){
-=======
-app.controller('createpostCtrl', ['$scope','$localStorage',  '$resource', '$location',
-    function( $scope, $localStorage, $resource, $location){
->>>>>>> hotfix
         $scope.save = function(){
             var posts = $resource('/api/posts');
             var content = $scope.post;
@@ -257,5 +215,3 @@ app.controller('EditPostCtrl', ['$scope', '$resource', '$location', '$routeParam
             });
         }
     }]);
-
->>>>>>> master
