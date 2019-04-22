@@ -33,7 +33,8 @@ router.get('/viewnotification', function(req, res){
 router.get('/', function(req, res){
     console.log('finding posts for author(obj):', req.query);
     var postCollection = db.get('posts');  
-    if(req.query.userquery != null){
+    console.log("The user query is : ", req.query.author);
+    if(req.query.author != null){
         postCollection.find({author :  req.query.author}, function(err, posts){
             if (err) throw err;
             console.log('got posts for author:', posts);
