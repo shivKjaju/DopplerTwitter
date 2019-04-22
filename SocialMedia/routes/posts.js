@@ -13,6 +13,22 @@ router.get('/:postid', function(req, res){
     });
 });
 
+// /api/posts/notification with get method
+router.get('/viewnotification', function(req, res){
+    console.log("Currently here : " + req);
+    var postCollection = db.get('posts'); 
+    var userCollection = db.get('users'); 
+    userCollection.find({username :  req.query.username}, function(err, user){
+        if (err) throw err;
+        console.log('got posts for user:', user);
+        postCollection.find({userMentions : user }, function(err, posts){
+            if (err) throw err;
+            console.log('got posts for author:', posts);
+            res.json(posts);
+        });
+    });
+});
+
 // /api/posts with get method
 router.get('/', function(req, res){
     console.log('finding posts for author(obj):', req.query);

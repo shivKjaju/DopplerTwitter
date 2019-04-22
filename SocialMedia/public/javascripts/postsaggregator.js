@@ -6,6 +6,10 @@ app.config(['$routeProvider', function($routeProvider){
             templateUrl: 'partials/home.html',
             controller: 'HomeCtrl'
         })
+        .when('/viewnotification', {
+            templateUrl: 'partials/viewnotification.html',
+            controller: 'NotificationCtrl'
+         })
         .when('/login',{
             templateUrl: 'partials/login.html',
             controller: 'LoginCtrl'
@@ -77,6 +81,21 @@ app.controller('HomeCtrl', ['$scope','$localStorage', '$resource', '$routeParams
             });
         };
 }]);
+
+app.controller('NotificationCtrl', ['$scope', '$resource', '$location','$routeParams','$localStorage',
+    function($scope, $resource, $location, $routeParams, $localStorage){
+        //Get everything based on the username
+        var Posts = $resource('/api/posts/viewnotification');
+        console.log("The post is ", Posts)
+        var Users = $resource('/users');
+        console.log(Users);
+        console.log("username is ", $localStorage.user.username)
+        Posts.query({userMentions: $localStorage.user.username}, function(post){
+            console.log("Here");
+            $scope.Posts = post;
+        });
+    }
+]);
 
 app.controller('ReplyPostCtrl', ['$scope', '$resource', '$location','$routeParams','$localStorage',
     function($scope, $resource, $location, $routeParams, $localStorage){
