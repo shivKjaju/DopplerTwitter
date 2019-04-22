@@ -1,5 +1,5 @@
 //A single JavaScript file that contains all controllers
-var app = angular.module('dopplerTwitter', ['ngResource','ngRoute']);
+var app = angular.module('dopplerTwitter', ['ngResource','ngRoute','ngStorage']);
 app.config(['$routeProvider', function($routeProvider){
     $routeProvider
         .when('/', {
@@ -32,17 +32,23 @@ app.config(['$routeProvider', function($routeProvider){
 
 }]);
 
-app.controller('HomeCtrl', ['$scope', '$resource', '$routeParams', '$location',
-    function($scope, $resource, $routeParams, $location){
+app.controller('HomeCtrl', ['$scope','$localStorage', '$resource', '$routeParams', '$location',
+    function($scope, $localStorage, $resource, $routeParams, $location){
         var Posts = $resource('/api/posts');
-        var Users = $resource('/users')
-        Posts.query(function(post){
+        //var PostsFollowing = $resource('/api/posts-following');
+        var Users = $resource('/users');
+        console.log("username is ", $localStorage.user)
+        Posts.query({author: $localStorage.user._id}, function(post){
             $scope.Posts = post;
         });
         Users.query(function(user){
             $scope.Users = user;
         });
 
+        // PostsFollowing.query({author: $localStorage.user._id}, function(post){
+        //     $scope.PostsFollowing = post;
+        // });
+        
         $scope.like = function(postid){
             var curr_post = $resource('/api/posts/:postid', { postid: postid }, {
                 update: { method: 'PUT' }
@@ -54,25 +60,85 @@ app.controller('HomeCtrl', ['$scope', '$resource', '$routeParams', '$location',
         };
 }]);
 
-app.controller('createpostCtrl', ['$scope', '$resource', '$location',
-    function( $scope, $resource, $location){
+app.controller('createpostCtrl', ['$scope','$localStorage',  '$resource', '$location',
+    function( $scope, $localStorage, $resource, $location){
         $scope.save = function(){
             var posts = $resource('/api/posts');
-            posts.save($scope.post, function(){  
+            var content = $scope.post;
+            content.author = $localStorage.user._id;
+            posts.save(content, function(){  
             $location.path('/#/');
         });
     };
 }]);   
 
-app.controller('LoginCtrl', ['$scope', '$resource', '$location',
-    function($scope, $resource, $location){
+app.controller('LoginCtrl', ['$localStorage','$scope', '$resource', '$location',
+    function($localStorage, $scope, $resource, $location){
         $scope.submit = function(){
-            var loginForm = $resource('/api/users');
-            loginForm.save($scope.new_user, function(){
-                $location.path('/#/');
+            var error = 0;
+            if($scope.user.username == null || $scope.user.password == null){
+                alert("Please fill in both the fields");
+                error = 1;
+            }
+            if(error != 1){
+            var loginForm = $resource('/users');
+            loginForm.get($scope.user, function(user){
+                if(user.username == null){
+                    alert("Username or password is not right")
+                }
+                else{
+                    console.log('storing session:', user);
+                    $localStorage.user = user;
+                    $location.path('/');
+                }
             });
+            
         };
-}]);
+}}]);
+
+app.controller('registerCtrl', ['$scope','$http', '$resource', '$location', '$routeParams', '$route',
+function($scope, $http, $resource, $location, $routeParams, $route){
+    $scope.submit = function(){
+        var flag = 0;
+        if($scope.user.name == null || $scope.user.username == null || $scope.user.password == null || $scope.user.confirmpassword == null){
+            alert("Please fill all the fields on this page to register yourself");
+            flag = 1;
+        }
+
+        if($scope.user.password != $scope.user.confirmpassword){
+            alert("Passwords don't match");
+            flag = 1
+        }
+        else{
+            
+            if(flag != 1){
+                var data = {user: $scope.user};
+                console.log("data:", data);
+                $http.post('/users/register', data)
+                .then(function(response) {
+                    rsp = response.data;
+                    console.log("response.data:", rsp);
+                    if(rsp.error){
+                        alert(rsp.error)
+                    } else{
+                        console.log("registration successful");
+                        $location.path('/login');
+                    }
+                   
+                    $location.replace();
+                })
+                .catch(function(response) {
+                    console.error('Gists error', response.status, response.data);
+                })
+                .finally(function() {
+                    console.log("finally finished gists");
+                });
+                
+            }
+        }
+    }
+}
+]);
 
 app.controller('DeletePostCtrl', ['$scope', '$resource', '$location', '$routeParams',
     function($scope, $resource, $location, $routeParams){
