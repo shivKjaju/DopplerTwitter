@@ -1,5 +1,4 @@
 //A single JavaScript file that contains all controllers
-var app = angular.module('dopplerTwitter', ['ngResource','ngRoute']);
 var app = angular.module('dopplerTwitter', ['ngResource','ngRoute','ngStorage']);
 app.config(['$routeProvider', function($routeProvider){
     $routeProvider
@@ -52,7 +51,7 @@ app.controller('HomeCtrl', ['$scope','$localStorage', '$resource', '$routeParams
         $scope.like = function(postid, fav_count){
             var test_post = $resource('/api/posts/:postid');
             console.log(test_post);
-            test_post.query({id:postid}, function(post){
+            test_post.query({author: $localStorage.user._id}, function(post){
                 console.log(post.favorited);
                 for(i =0 ; i < post.length ; i++){
                     if(post[i]._id == postid){
@@ -79,18 +78,20 @@ app.controller('HomeCtrl', ['$scope','$localStorage', '$resource', '$routeParams
         };
 }]);
 
-app.controller('ReplyPostCtrl', ['$scope', '$resource', '$location','$routeParams',
-    function($scope, $resource, $location, $routeParams){
+app.controller('ReplyPostCtrl', ['$scope', '$resource', '$location','$routeParams','$localStorage',
+    function($scope, $resource, $location, $routeParams, $localStorage){
         var Posts = $resource('/api/posts/:replypostid', { replypostid: $routeParams.postid }, {
-            update: { method: 'PUT' }});
+            update: { method: 'PUT' }
+        });
         Posts.get({ editpostid: $routeParams.postid}, function(post){
             $scope.reply_post = post;
         });
-
         $scope.reply = function(postid){
             var posts = $resource('/api/posts');
             console.log(posts);
             var newid = 0;
+            $scope.post.author = $localStorage.user._id;
+            console.log($scope.post.author);
             posts.save($scope.post, function(post){  
                 newid = post
                 $scope.reply_post.replies.push(newid);
@@ -102,8 +103,8 @@ app.controller('ReplyPostCtrl', ['$scope', '$resource', '$location','$routeParam
         }
 }]); 
 
-app.controller('createpostCtrl', ['$scope', '$resource', '$location',
-    function( $scope, $resource, $location){
+app.controller('createpostCtrl', ['$scope', '$resource', '$location', '$localStorage',
+    function( $scope, $resource, $location, $localStorage){
         $scope.save = function(){
             var posts = $resource('/api/posts');
             var content = $scope.post;
@@ -182,13 +183,18 @@ function($scope, $http, $resource, $location, $routeParams, $route){
 }
 ]);
 
-app.controller('DeletePostCtrl', ['$scope', '$resource', '$location', '$routeParams',
-    function($scope, $resource, $location, $routeParams){
+app.controller('DeletePostCtrl', ['$scope', '$resource', '$location', '$routeParams','$localStorage',
+    function($scope, $resource, $location, $routeParams, $localStorage){
         var Post = $resource('/api/posts/:postid');
-        alert(Post.content);
-        Post.query({_id: $routeParams.postid}, function(post){
+        console.log("213123123jibfgjbisufgpabsoudgipasb0dg");
+        console.log("POost : " + Post);
+        console.log("ID : " + $routeParams.postid);
+        Post.query({author: $localStorage.user._id}, function(post){
+            console.log("DNAKNDASNDA: " + post);
             for(i = 0; i <post.length; i++){
+                console.log("HERE1");
                 if(post[i]._id == $routeParams.postid ){
+                    console.log("HERE2");
                     $scope.delete_post = post[i];   
                 }
             }

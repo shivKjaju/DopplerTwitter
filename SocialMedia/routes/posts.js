@@ -16,12 +16,19 @@ router.get('/:postid', function(req, res){
 // /api/posts with get method
 router.get('/', function(req, res){
     console.log('finding posts for author(obj):', req.query);
-    var postCollection = db.get('posts'); 
-    postCollection.find({author :  req.query.author}, function(err, posts){
-        if (err) throw err;
-        console.log('got posts for author:', posts);
-        res.json(posts);
-    });
+    var postCollection = db.get('posts');  
+    if(req.query.userquery != null){
+        postCollection.find({author :  req.query.author}, function(err, posts){
+            if (err) throw err;
+            console.log('got posts for author:', posts);
+            res.json(posts);
+        });
+    } else{
+        postCollection.find({}, function(err, posts){
+            if (err) throw err;
+            res.json(posts);
+        });
+    }
 });
 
 // posts of followers
@@ -68,6 +75,7 @@ router.post('/', function(req, res){
 // /api/posts/:postid with post method
 router.post('/:postid', function(req, res){
     var collection = db.get('posts');
+    console.log("Thje request parameter", req);
     var objectId = new objectId();
     collection.update(
         {
