@@ -6,7 +6,7 @@ app.config(['$routeProvider', function($routeProvider){
             templateUrl: 'partials/home.html',
             controller: 'HomeCtrl'
         })
-        .when('/viewnotification', {
+        .when('/viewnotifications/:userid', {
             templateUrl: 'partials/viewnotification.html',
             controller: 'NotificationCtrl'
          })
@@ -108,12 +108,14 @@ app.controller('HomeCtrl', ['$scope','$localStorage', '$resource', '$routeParams
 app.controller('NotificationCtrl', ['$scope', '$resource', '$location','$routeParams','$localStorage',
     function($scope, $resource, $location, $routeParams, $localStorage){
         //Get everything based on the username
-        var Posts = $resource('/api/posts/viewnotification');
+        var Posts = $resource('/api/posts/viewnotifications/:userid', { userid: $routeParams.userid }, {
+            update: { method: 'PUT' }
+        });
         console.log("The post is ", Posts)
         var Users = $resource('/users');
         console.log(Users);
-        console.log("username is ", $localStorage.user.username)
-        Posts.query({userMentions: $localStorage.user.username}, function(post){
+        console.log($localStorage.user.username);
+        Posts.query({userMentions: "@"+$localStorage.user.username}, function(post){
             console.log("Here");
             $scope.Posts = post;
         });
@@ -151,9 +153,33 @@ app.controller('createpostCtrl', ['$scope', '$resource', '$location', '$localSto
             var posts = $resource('/api/posts');
             var content = $scope.post;
             content.author = $localStorage.user._id;
-            posts.save(content, function(){  
-            $location.path('/#/');
-        });
+            console.log("Original : " + content.userMentions);
+            // //Parse user mentions
+            // var userMenArr = [];
+            // var userName = [];
+            // async function parsestring(){
+            //     for(i = 0 ; i <= content.userMentions.length; i++){
+            //         console.log(i);
+            //         console.log(content.userMentions[i]);
+            //         if(content.userMentions[i] != ","){
+            //             userName.push(content.userMentions[i]);
+            //         }
+            //         else if(content.userMentions[i] == ","){
+            //             var add = userName.join("");
+            //             console.log("Inhere : " + add);
+            //             userMenArr.push("@"+ add);
+            //             userName = [];
+            //         }
+            //     }
+            //     return userMenArr;
+            // }
+            // userMenArr = parsestring();
+            // $scope.post.userMentions = userMenArr;
+            // console.log($scope.post.userMentions);
+            posts.save($scope.post, function(){
+                $location.path('/#/');
+            });
+            
     };
 }]);  
 

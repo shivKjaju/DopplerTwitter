@@ -32,7 +32,13 @@
         </nav>
     <body>
         <h1>Notifications Page</h1>
-        {{Posts}}
+        <ul>
+          <li ng-repeat="post in Posts">
+            <div class="container-fluid"> 
+              <h6>You were mentioned at {{post.date}} by {{post.author}} using {{post.userMentions}}</h6>
+            </div>
+          </li>
+        </ul>
         <script src="" async defer></script>
     </body>
 </html>

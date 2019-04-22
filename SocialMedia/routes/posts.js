@@ -14,16 +14,17 @@ router.get('/:postid', function(req, res){
 });
 
 // /api/posts/notification with get method
-router.get('/viewnotification', function(req, res){
-    console.log("Currently here : " + req);
+router.get('/viewnotifications/:userid', function(req, res){
+    console.log("Currently here : " + req.params.userid);
     var postCollection = db.get('posts'); 
     var userCollection = db.get('users'); 
-    userCollection.find({username :  req.query.username}, function(err, user){
+    userCollection.find({_id :  req.params.userid}, function(err, user){
         if (err) throw err;
-        console.log('got posts for user:', user);
-        postCollection.find({userMentions : user }, function(err, posts){
+        console.log('got user:', user[0].username);
+        postCollection.find({userMentions : "@"+user[0].username}, function(err, posts){
             if (err) throw err;
             console.log('got posts for author:', posts);
+            posts.sort()
             res.json(posts);
         });
     });
@@ -74,7 +75,7 @@ router.get('/', function(req, res){
 router.post('/', function(req, res){
     var collection = db.get('posts');
     console.log("Adding a new Post into the DB");
-    console.log(req.body.content);
+    console.log(req.body.userMentions);
     collection.insert({
         author: req.body.author,
         content: req.body.content,
