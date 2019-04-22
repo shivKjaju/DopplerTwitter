@@ -16,10 +16,18 @@ router.get('/:postid', function(req, res){
 // /api/posts with get method
 router.get('/', function(req, res){
     var postCollection = db.get('posts');
-    postCollection.find({}, function(err, posts){
-        if (err) throw err;
-        res.json(posts);
-    });
+    console.log(req.query.userquery);
+    if(req.query.userquery != null){
+        postCollection.find({}, function(err, posts){
+            if (err) throw err;
+            res.json(posts);
+        });
+    } else{
+        postCollection.find({}, function(err, posts){
+            if (err) throw err;
+            res.json(posts);
+        });
+    }
 });
 
 
