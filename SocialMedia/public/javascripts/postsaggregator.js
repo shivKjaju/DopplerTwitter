@@ -103,6 +103,10 @@ app.controller('HomeCtrl', ['$scope','$localStorage', '$resource', '$routeParams
             $localStorage.$reset();
             $location.path('/login')
         }
+        //Share
+        $scope.share = function(post_id){
+            console.log(post_id);
+        }
 }]);
 
 app.controller('NotificationCtrl', ['$scope', '$resource', '$location','$routeParams','$localStorage',
