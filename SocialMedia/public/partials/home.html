@@ -51,7 +51,9 @@
                 Likes : {{post.favorited}}
                 <button type="submit" class="fas fa-heart" value="Add" ng-click="like(post._id, post.favorited)"></button>
                 <br>
-                <a href="/#/post/reply/{{post._id}}"><i class="fas fa-comment-dots"></i></a><br>
+                <a href="/#/post/reply/{{post._id}}"><i class="fas fa-comment-dots"></i></a>
+                <button type="submit" class="fas fa-share" value="Add" ng-click="share(post._id)"></button>
+                <br>
                 Replies: <br>
                 <ul>
                     <li ng-repeat = 'reply in post.replies'>
