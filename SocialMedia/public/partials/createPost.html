@@ -1,0 +1,31 @@
+<nav id=naviBar class="navbar navbar-expand-md fixed-top navbar-light bg-light justify-content-between">
+        <div class="container-fluid">
+            <a class="navbar-brand h1" href="/#/"><i class="fab fa-twitter">DopplerTwitter</i></a>
+        <div class="collapse navbar-collapse" id="navbarNav">
+            <ul class="navbar-nav">
+              <li class="nav-item active">  
+                <a class='btn btn-primary' href="/#/createPost"><i class="fas fa-plus"></i></a>
+              </li>
+            </ul>
+          </div>
+          <form class="form-inline">
+                <input class="form-control mr-sm-2" type="search" placeholder="Search" aria-label="Search">
+                <button class="btn btn-outline-success my-2 my-sm-0" type="submit">Search</button>
+        </form>
+        </div>
+    </nav>
+<h1>Create a new post</h1>
+<form>
+    <div class="form-group">
+        <label>New Post</label>
+        <textarea class="form-control" rows="3" id="comment" ng-model="post.content" maxlength="144"></textarea>
+        <span id="charLimit" ng-model="word_count">144 characters limit</span>
+    </div>
+    <div class="form-group">
+        <label>userMentions</label>
+        <textarea class="form-control" rows="3" id="comment" ng-model="post.userMentions"></textarea>
+    </div>
+    <input type="button" class="btn btn-primary" value="Add" ng-click="save()"></input>
+    <a class = "btn btn-default" href="/#/"> No, Go Back</a>
+</form>
+</div>

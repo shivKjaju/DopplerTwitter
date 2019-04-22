@@ -1,2 +1,2 @@
 # DopplerTwitter
-Twitter clone using MeanStack
+Replicating Twitter using MeanStack

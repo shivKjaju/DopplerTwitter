@@ -1,0 +1,39 @@
+<!DOCTYPE html>
+<!--[if lt IE 7]>      <html class="no-js lt-ie9 lt-ie8 lt-ie7"> <![endif]-->
+<!--[if IE 7]>         <html class="no-js lt-ie9 lt-ie8"> <![endif]-->
+<!--[if IE 8]>         <html class="no-js lt-ie9"> <![endif]-->
+<!--[if gt IE 8]><!--> <html class="no-js"> <!--<![endif]-->
+    <head>
+        <meta charset="utf-8">
+        <meta http-equiv="X-UA-Compatible" content="IE=edge">
+        <title></title>
+        <meta name="description" content="">
+        <meta name="viewport" content="width=device-width, initial-scale=1">
+        <link rel="stylesheet" href="">
+    </head>
+    <body>
+            <nav id=naviBar class="navbar navbar-expand-md fixed-top navbar-light bg-light justify-content-between">
+                    <div class="container-fluid">
+                        <a class="navbar-brand h1" href="/#/"><i class="fab fa-twitter">DopplerTwitter</i></a>
+                    <div class="collapse navbar-collapse" id="navbarNav">
+                        <ul class="navbar-nav">
+                          <li class="nav-item active">  
+                            <a class='btn btn-primary' href="/#/createPost"><i class="fas fa-plus"></i></a>
+                          </li>
+                        </ul>
+                      </div>
+                      <form class="form-inline">
+                            <input class="form-control mr-sm-2" type="search" placeholder="Search" aria-label="Search">
+                            <button class="btn btn-outline-success my-2 my-sm-0" type="submit">Search</button>
+                    </form>
+                    </div>
+                </nav>
+        <h1>Delete a Post</h1>
+        <h5>Do you really want to remove this post?</h5>
+        <ul>
+            <li>Content: {{delete_post.content}}</li>
+        </ul>
+        <input type = "button" value="Delete" class="btn btn-danger" ng-click="delete()" />
+        <a class = "btn btn-default" href="/#/"> No, Go Back</a>
+    </body>
+</html>
