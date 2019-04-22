@@ -24,6 +24,11 @@
                     <button class="btn btn-outline-success my-2 my-sm-0" type="submit" ng-click='search(username)'>Search</button>
             </form>
             </div>
+            <ul class="navbar-nav mr-auto">
+                    <li class="nav-item active">
+                      <button type="button" class="btn btn-secondary btn-lg" ng-click="logout()"> Logout </button>
+                    </li>
+                  </ul>
             
         </nav>
     <body>
@@ -65,8 +70,30 @@
                             Replies: <br>
                     </li>
                 </ul>
-                UserMentions: {{post.userMentions}}
+                UserMentions: {{post.userMentions}}<br>
             </li>
+        </div>
+
+        <h3>Feed</h3>
+        <div class= "container-fluid">
+                <ul>
+                        <li ng-repeat = 'postreturn in postFollowing'>
+                        ID: {{postreturn[0]._id}}<br>
+                        User: {{postreturn[0].author}}<br>
+                        Content: {{postreturn[0].content}}
+                        <a href="/#/post/{{postreturn[0]._id}}">
+                            <i class="fas fa-edit"></i>
+                        </a>
+                        <a href="/#/post/delete/{{post._id}}">
+                            <i class="fas fa-trash-alt"></i>
+                        </a>
+                        <br>    
+                        Likes : {{postreturn[0].favorited}}
+                        <button type="submit" class="fas fa-heart" value="Add" ng-click="like(postreturn[0]._id, postreturn[0].favorited)"></button>
+                        <br>
+                        <a href="/#/post/reply/{{postreturn[0]._id}}"><i class="fas fa-comment-dots"></i></a><br>
+                        </li>
+                        </ul>
         </div>
     </ul>
     </div>

@@ -42,15 +42,33 @@ app.config(['$routeProvider', function($routeProvider){
 app.controller('HomeCtrl', ['$scope','$localStorage', '$resource', '$routeParams', '$location',
     function($scope, $localStorage, $resource, $routeParams, $location){
         var Posts = $resource('/api/posts');
-        //var PostsFollowing = $resource('/api/posts-following');
+        var PostsFollowing = $resource('/users/following');
+        var pFollow = $resource('/users/follow');
         var Users = $resource('/users');
         console.log("username is ", $localStorage.user)
         Posts.query({author: $localStorage.user._id}, function(post){
             $scope.Posts = post;
         });
-        Users.query(function(user){
-            $scope.Users = user;
-        });
+        // Users.query(function(user){
+        //     $scope.Users = user;
+        // });
+        PostsFollowing.get({author:$localStorage.user._id}, function(usersReturn){
+            console.log("The content from users is ",usersReturn.following);
+            var arr = [];
+            for(i = 0; i< usersReturn.following.length; i++){
+                console.log("The users are", usersReturn.following[i]);
+                pFollow.get({username:usersReturn.following[i] }, function(returnBack){
+                    console.log("Return of the users",returnBack._id );
+                    Posts.query({author: returnBack._id}, function(postBack){
+                        console.log("Return back from users and posts", postBack);
+                        arr.push(postBack);
+                        
+                    });
+                })
+            }
+            $scope.postFollowing = arr;
+        })
+        
         //Add a like function
         $scope.like = function(postid, fav_count){
             var test_post = $resource('/api/posts/:postid');
@@ -80,6 +98,11 @@ app.controller('HomeCtrl', ['$scope','$localStorage', '$resource', '$routeParams
                 console.log(post._id);
             });
         };
+        $scope.logout = function(){
+            console.log("logging out")
+            $localStorage.$reset();
+            $location.path('/login')
+        }
 }]);
 
 app.controller('NotificationCtrl', ['$scope', '$resource', '$location','$routeParams','$localStorage',

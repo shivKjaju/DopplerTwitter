@@ -50,7 +50,7 @@ router.get('/', function(req, res){
 });
 
 // posts of followers
-// router.get('/', function(req, res){
+// router.get('/following', function(req, res){
 //     console.log('finding posts for author(obj):', req.query);
 //     var collection = db.get('posts'); 
 //     var mapFunc = function(){
@@ -93,7 +93,7 @@ router.post('/', function(req, res){
 // /api/posts/:postid with post method
 router.post('/:postid', function(req, res){
     var collection = db.get('posts');
-    console.log("Thje request parameter", req);
+    console.log("The request parameter", req);
     var objectId = new objectId();
     collection.update(
         {
@@ -146,26 +146,26 @@ router.put('/:postid', function(req, res){
     });
 });
 
-router.get('/', function(req, res){
-    var collection = db.get('posts');
-    var mapFunc = function(){
-        emit(this.author, this.content);
-    };
-    var reduceFunc = function(author, content){
-        return content.join();
-    };
-    collection.mapReduce(
-        {
-            mapFunc,
-            reduceFunc,
-            out: "postResults"
-        }, function(err, out){
-            if (err) throw err;
-            res.json(out)
-        }
-    );
+// router.get('/', function(req, res){
+//     var collection = db.get('posts');
+//     var mapFunc = function(){
+//         emit(this.author, this.content);
+//     };
+//     var reduceFunc = function(author, content){
+//         return content.join();
+//     };
+//     collection.mapReduce(
+//         {
+//             mapFunc,
+//             reduceFunc,
+//             out: "postResults"
+//         }, function(err, out){
+//             if (err) throw err;
+//             res.json(out)
+//         }
+//     );
 
-});
+// });
 
 
 //module.exports must be our last line
