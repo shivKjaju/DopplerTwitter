@@ -16,19 +16,30 @@
                     <a class='btn btn-primary' href="/#/createPost"><i class="fas fa-plus"></i></a>
                   </li>
                 </ul>
+                <ul class="navbar-nav">
+                    <li class="nav-item active">  
+                      <a class='btn btn-danger' href="/#/login"><i class="fas fa-sign-in-alt"></i></a>
+                    </li>
+                  </ul>
+
+                <ul class="navbar-nav">
+                    <li class="nav-item active">  
+                        <a class="btn btn-secondary" href="/#/viewnotifications/{{Posts[0].author}}"><i class="fas fa-bell"></i></a>
+                    </li>
+                </ul>
               </div>
 
-            <a href="/#/viewnotifications/{{Posts[0].author}}"><i class="fas fa-bell"></i></a>
+            
             <form class="form-inline">
                     <input class="form-control mr-sm-2" type="search" ng-model="username" placeholder="Enter Username" aria-label="Search">
                     <button class="btn btn-outline-success my-2 my-sm-0" type="submit" ng-click='search(username)'>Search</button>
             </form>
             </div>
             <ul class="navbar-nav mr-auto">
-                    <li class="nav-item active">
-                      <button type="button" class="btn btn-secondary btn-lg" ng-click="logout()"> Logout </button>
-                    </li>
-                  </ul>
+                <li class="nav-item active">
+                    <button type="button" class="btn btn-info" ng-click="logout()"> Logout </button>
+                  </li>
+            </ul>
             
         </nav>
     <body>
@@ -51,8 +62,7 @@
                 Likes : {{post.favorited}}
                 <button type="submit" class="fas fa-heart" value="Add" ng-click="like(post._id, post.favorited)"></button>
                 <br>
-                <a href="/#/post/reply/{{post._id}}"><i class="fas fa-comment-dots"></i></a>
-                <button type="submit" class="fas fa-share" value="Add" ng-click="share(post._id)"></button>
+                <a href="/#/post/reply/{{post._id}}"><i class="fas fa-comment-dots"></i></a>\
                 <br>
                 Replies: <br>
                 <ul>
@@ -79,23 +89,20 @@
         <h3>Feed</h3>
         <div class= "container-fluid">
                 <ul>
-                        <li ng-repeat = 'postreturn in postFollowing'>
-                        ID: {{postreturn[0]._id}}<br>
-                        User: {{postreturn[0].author}}<br>
-                        Content: {{postreturn[0].content}}
-                        <a href="/#/post/{{postreturn[0]._id}}">
+                    <li ng-repeat = 'postreturn in postFollowing[0]'>
+                        ID: {{postreturn._id}}<br>
+                        User: {{postreturn.author}}<br>
+                        Content: {{postreturn.content}}
+                        <a href="/#/post/{{postreturn._id}}">
                             <i class="fas fa-edit"></i>
-                        </a>
-                        <a href="/#/post/delete/{{post._id}}">
-                            <i class="fas fa-trash-alt"></i>
                         </a>
                         <br>    
                         Likes : {{postreturn[0].favorited}}
-                        <button type="submit" class="fas fa-heart" value="Add" ng-click="like(postreturn[0]._id, postreturn[0].favorited)"></button>
+                        <button type="submit" class="fas fa-heart" value="Add" ng-click="like(postreturn._id, postreturn.favorited)"></button>
                         <br>
-                        <a href="/#/post/reply/{{postreturn[0]._id}}"><i class="fas fa-comment-dots"></i></a><br>
+                        <a href="/#/post/reply/{{postreturn._id}}"><i class="fas fa-comment-dots"></i></a><br>
                         </li>
-                        </ul>
+                    </ul>
         </div>
     </ul>
     </div>
